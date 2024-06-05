@@ -1,3 +1,4 @@
+const prettierConfig = require('./.prettierrc.js')  module.exports = { ... }
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -20,6 +21,7 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    'prettier/prettier': [ 'error', prettierConfig ],
   }
 };
