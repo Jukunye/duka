@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class Product extends Document {
@@ -12,6 +12,12 @@ export class Product extends Document {
   @Prop({ required: true })
   price: number;
 
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Category' })
+  category: MongooseSchema.Types.ObjectId;
+
+  @Prop({ required: true, default: 0 })
+  stock: number;
+
   @Prop()
   createdAt: Date;
 
@@ -23,10 +29,9 @@ export const ProductSchema = SchemaFactory.createForClass(Product);
 
 // Pre-save middleware to update the timestamps
 ProductSchema.pre('save', function (next) {
-  const now = new Date();
-  this.updatedAt = now;
   if (!this.createdAt) {
-    this.createdAt = now;
+    this.createdAt = new Date();
   }
+  this.updatedAt = new Date();
   next();
 });
