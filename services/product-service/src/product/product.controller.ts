@@ -39,4 +39,13 @@ export class ProductController {
   async remove(@Param('id') id: string): Promise<void> {
     return this.productService.deleteProduct(id);
   }
+
+  @Put(':id/stock')
+  async updateStock(
+    @Param('id') id: string,
+    @Body() body: { quantity: number }
+  ) {
+    const { quantity } = body;
+    return this.productService.updateStock(id, quantity);
+  }
 }

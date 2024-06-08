@@ -53,4 +53,14 @@ export class ProductService {
       throw new NotFoundException(`Product with id ${id} not found`);
     }
   }
+
+  async updateStock(id: string, quantity: number): Promise<Product> {
+    const product = await this.productModel.findById(id).exec();
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+    product.stock += quantity;
+
+    return product.save();
+  }
 }
