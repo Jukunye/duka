@@ -11,6 +11,22 @@ export class Product extends Document {
 
   @Prop({ required: true })
   price: number;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
+
+// Pre-save middleware to update the timestamps
+ProductSchema.pre('save', function (next) {
+  const now = new Date();
+  this.updatedAt = now;
+  if (!this.createdAt) {
+    this.createdAt = now;
+  }
+  next();
+});
